@@ -11,20 +11,28 @@ import {
   useInstrumentedHandler,
   useTranslation,
   Tag,
+  Tabs,
 } from '@newrelic/gatsby-theme-newrelic';
+import { useLoggedIn } from '@newrelic/gatsby-theme-newrelic/src/hooks/useLoggedIn';
+// these loggin hooks might need to be exported from gatsby-theme-newrelic/index.js like our other hooks.
+
 import SurfaceLink from '../components/SurfaceLink';
 import HomepageBanner from '../components/HomepageBanner';
 import FindYourQuickStart from '../components/FindYourQuickstart';
+import MDXContainer from '../components/MDXContainer';
 
 const HomePage = ({ data }) => {
   const {
     site: { layout },
     allMarkdownRemark: { edges: whatsNewPosts },
+    quicklaunch: { body },
   } = data;
 
   const [searchTerm, setSearchTerm] = useState('');
 
   const { t } = useTranslation();
+
+  const { loggedIn } = useLoggedIn();
 
   const mobileBreakpoint = '450px';
 
@@ -92,97 +100,111 @@ const HomePage = ({ data }) => {
           {t('home.search.popularSearches.options.4')}
         </Link>
       </div>
-      <HomepageBanner />
-      <Section
-        layout={layout}
-        css={css`
-          border: none;
-          background: var(--tertiary-background-color);
-        `}
-      >
-        <SectionTitle title={t('home.popularDocs.title')} />
-        <div
-          css={css`
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 1rem;
-            counter-reset: welcome-tile;
-            flex: 2;
-            align-self: flex-start;
-            @media screen and (max-width: 1500px) {
-              align-self: auto;
-            }
+      <Tabs initialTab="default-view">
+        <Tabs.Bar>
+          <Tabs.BarItem id="new-user-view">Quick launch guide</Tabs.BarItem>
+          <Tabs.BarItem id="default-view">Default view</Tabs.BarItem>
+        </Tabs.Bar>
 
-            @media screen and (max-width: 1050px) {
-              grid-template-columns: 1fr;
-            }
+        <Tabs.Pages>
+          <Tabs.Page id="new-user-view">
+            <MDXContainer body={body} />
+          </Tabs.Page>
+          <Tabs.Page id="default-view">
+            <HomepageBanner />
+            <Section
+              layout={layout}
+              css={css`
+                border: none;
+                background: var(--tertiary-background-color);
+              `}
+            >
+              <SectionTitle title={t('home.popularDocs.title')} />
+              <div
+                css={css`
+                  display: grid;
+                  grid-template-columns: repeat(3, 1fr);
+                  grid-gap: 1rem;
+                  counter-reset: welcome-tile;
+                  flex: 2;
+                  align-self: flex-start;
+                  @media screen and (max-width: 1500px) {
+                    align-self: auto;
+                  }
 
-            @media screen and (max-width: 760px) {
-              grid-template-columns: repeat(3, 1fr);
-            }
+                  @media screen and (max-width: 1050px) {
+                    grid-template-columns: 1fr;
+                  }
 
-            @media screen and (max-width: 650px) {
-              grid-template-columns: 1fr;
-            }
-          `}
-        >
-          <DocTile
-            title={t('home.popularDocs.t1.title')}
-            label={{ text: 'Get started', color: '#F4CBE7' }}
-            path="/docs/apm/new-relic-apm/getting-started/introduction-apm"
-          />
-          <DocTile
-            title={t('home.popularDocs.t2.title')}
-            label={{ text: 'Security', color: '#FCD672' }}
-            path="/docs/vulnerability-management/overview"
-          />
-          <DocTile
-            title={t('home.popularDocs.t3.title')}
-            label={{ text: 'APM', color: '#AFE2E3' }}
-            path="/install/java/"
-          />
-        </div>
-      </Section>
-      <Section layout={layout}>
-        <SectionTitle title={t('home.whatsNew.title')} />
-        <div
-          css={css`
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-gap: 1rem;
-            counter-reset: welcome-tile;
-            flex: 2;
-            align-self: flex-start;
-            @media screen and (max-width: 1500px) {
-              align-self: auto;
-            }
+                  @media screen and (max-width: 760px) {
+                    grid-template-columns: repeat(3, 1fr);
+                  }
 
-            @media screen and (max-width: 1050px) {
-              grid-template-columns: 1fr;
-            }
+                  @media screen and (max-width: 650px) {
+                    grid-template-columns: 1fr;
+                  }
+                `}
+              >
+                <DocTile
+                  title={t('home.popularDocs.t1.title')}
+                  label={{ text: 'Get started', color: '#F4CBE7' }}
+                  path="/docs/apm/new-relic-apm/getting-started/introduction-apm"
+                />
+                <DocTile
+                  title={t('home.popularDocs.t2.title')}
+                  label={{ text: 'Security', color: '#FCD672' }}
+                  path="/docs/vulnerability-management/overview"
+                />
+                <DocTile
+                  title={t('home.popularDocs.t3.title')}
+                  label={{ text: 'APM', color: '#AFE2E3' }}
+                  path="/install/java/"
+                />
+              </div>
+            </Section>
+            <Section layout={layout}>
+              <SectionTitle title={t('home.whatsNew.title')} />
+              <div
+                css={css`
+                  display: grid;
+                  grid-template-columns: repeat(3, 1fr);
+                  grid-gap: 1rem;
+                  counter-reset: welcome-tile;
+                  flex: 2;
+                  align-self: flex-start;
+                  @media screen and (max-width: 1500px) {
+                    align-self: auto;
+                  }
 
-            @media screen and (max-width: 760px) {
-              grid-template-columns: repeat(3, 1fr);
-            }
+                  @media screen and (max-width: 1050px) {
+                    grid-template-columns: 1fr;
+                  }
 
-            @media screen and (max-width: 650px) {
-              grid-template-columns: 1fr;
-            }
-          `}
-        >
-          {latestWhatsNewPosts.map((post) => (
-            <DocTile
-              key={post.title}
-              title={post.title}
-              date={post.releaseDate}
-              path={post.path}
-            />
-          ))}
-        </div>
-      </Section>
-      <Section layout={layout}>
-        <FindYourQuickStart />
-      </Section>
+                  @media screen and (max-width: 760px) {
+                    grid-template-columns: repeat(3, 1fr);
+                  }
+
+                  @media screen and (max-width: 650px) {
+                    grid-template-columns: 1fr;
+                  }
+                `}
+              >
+                {latestWhatsNewPosts.map((post) => (
+                  <DocTile
+                    key={post.title}
+                    title={post.title}
+                    date={post.releaseDate}
+                    path={post.path}
+                  />
+                ))}
+              </div>
+            </Section>
+            <Section layout={layout}>
+              <FindYourQuickStart />
+            </Section>
+          </Tabs.Page>
+        </Tabs.Pages>
+      </Tabs>
     </>
   );
 };
@@ -212,11 +234,14 @@ HomePage.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query {
+  query($quicklaunchSlug: String!) {
     site {
       layout {
         contentPadding
       }
+    }
+    quicklaunch: mdx(slug: { eq: $quicklaunchSlug }) {
+      body
     }
     allMarkdownRemark(
       sort: {
