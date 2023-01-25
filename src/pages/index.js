@@ -25,7 +25,10 @@ const HomePage = ({ data }) => {
   const {
     site: { layout },
     allMarkdownRemark: { edges: whatsNewPosts },
-    quicklaunch: { body },
+    quicklaunch: {
+      body,
+      frontmatter: { title },
+    },
   } = data;
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -108,6 +111,7 @@ const HomePage = ({ data }) => {
 
         <Tabs.Pages>
           <Tabs.Page id="new-user-view">
+            <h1> {title}</h1>
             <MDXContainer body={body} />
           </Tabs.Page>
           <Tabs.Page id="default-view">
@@ -242,6 +246,9 @@ export const pageQuery = graphql`
     }
     quicklaunch: mdx(slug: { eq: $quicklaunchSlug }) {
       body
+      frontmatter {
+        title
+      }
     }
     allMarkdownRemark(
       sort: {
