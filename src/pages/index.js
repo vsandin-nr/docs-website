@@ -10,12 +10,10 @@ import {
   Surface,
   useInstrumentedHandler,
   useTranslation,
+  useLoggedIn,
   Tag,
   Tabs,
 } from '@newrelic/gatsby-theme-newrelic';
-import { useLoggedIn } from '@newrelic/gatsby-theme-newrelic/src/hooks/useLoggedIn';
-// these loggin hooks might need to be exported from gatsby-theme-newrelic/index.js like our other hooks.
-
 import SurfaceLink from '../components/SurfaceLink';
 import HomepageBanner from '../components/HomepageBanner';
 import FindYourQuickStart from '../components/FindYourQuickstart';
@@ -105,7 +103,7 @@ const HomePage = ({ data }) => {
       </div>
       <Tabs initialTab="default-view">
         <Tabs.Bar>
-          <Tabs.BarItem id="new-user-view">Quick launch guide</Tabs.BarItem>
+          <Tabs.BarItem id="new-user-view">New user view</Tabs.BarItem>
           <Tabs.BarItem id="default-view">Default view</Tabs.BarItem>
         </Tabs.Bar>
 
