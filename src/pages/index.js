@@ -80,7 +80,6 @@ const HomePage = ({ data }) => {
           width: 40%;
           display: flex;
           width: 100%;
-          margin-bottom: 1rem;
           flex-wrap: wrap;
           a {
             margin-left: 0.75rem;
@@ -107,6 +106,7 @@ const HomePage = ({ data }) => {
             display: block;
             font-size: 1.25rem;
             border: none;
+            margin-bottom: 3rem;
 
             button {
               padding: 8px 16px;
@@ -119,6 +119,14 @@ const HomePage = ({ data }) => {
 
         <Tabs.Pages>
           <Tabs.Page id="new-user-view">
+            <h1
+              css={css`
+                font-weight: normal;
+                font-size: 3rem;
+              `}
+            >
+              Getting started
+            </h1>
             <h1> {title}</h1>
             <MDXContainer body={body} />
           </Tabs.Page>
