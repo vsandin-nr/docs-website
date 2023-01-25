@@ -102,7 +102,17 @@ const HomePage = ({ data }) => {
         </Link>
       </div>
       <Tabs initialTab="default-view">
-        <Tabs.Bar>
+        <Tabs.Bar
+          css={css`
+            display: block;
+            font-size: 1.25rem;
+            border: none;
+
+            button {
+              padding: 8px 16px;
+            }
+          `}
+        >
           <Tabs.BarItem id="new-user-view">New user view</Tabs.BarItem>
           <Tabs.BarItem id="default-view">Default view</Tabs.BarItem>
         </Tabs.Bar>
