@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { navigate } from '@reach/router';
 import { css } from '@emotion/react';
@@ -34,6 +34,8 @@ const HomePage = ({ data }) => {
   const { t } = useTranslation();
 
   const { loggedIn } = useLoggedIn();
+
+  const initialTab = 'default-view';
 
   const mobileBreakpoint = '450px';
 
@@ -100,16 +102,20 @@ const HomePage = ({ data }) => {
           {t('home.search.popularSearches.options.4')}
         </Link>
       </div>
-      <Tabs initialTab="default-view">
+      <Tabs initialTab={initialTab}>
         <Tabs.Bar
           css={css`
             display: block;
             font-size: 1.25rem;
             border: none;
             margin-bottom: 3rem;
+            border: solid #bbb 1px;
+            border-radius: 5px;
+            width: 310px;
 
             button {
               padding: 8px 16px;
+              border-left: solid #bbb 1px;
             }
           `}
         >
